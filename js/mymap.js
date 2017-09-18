@@ -7,6 +7,9 @@ $(function() {
   var DEFAULT_LAT = 40.785091;
   var DEFAULT_LNG = -73.968285;
 
+  var current_infowindow;
+  var makers_shown;
+
   function initMap() {
 
     var map = new google.maps.Map($('#map')[0], {
@@ -41,12 +44,18 @@ $(function() {
   }
 
   function getNearByPlaces(map, params) {
+    if (markers_shown) {
+      _.each(markers_shown, function(marker) {
+          marker.setMap(null);
+      });
+    }
+    markers_shown = [];
     service = new google.maps.places.PlacesService(map);
     service.nearbySearch(params, function(places, status) {
       if (status === google.maps.places.PlacesServiceStatus.OK) {
         var current_infowindow;
 
-        _.each(results, function(place) {
+        _.each(places, function(place) {
           var marker = new google.maps.Marker({
             position: {
               'lat': place.geometry.location.lat(),
@@ -73,6 +82,7 @@ $(function() {
 
             showDetailedInfo(place);
           });
+          markers_shown.push(marker);
         });
       }
     });
