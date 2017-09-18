@@ -60,18 +60,25 @@ $(function() {
         });
       }
     });
+    $('.place-info-visibility-toggle').on('click', function() {
+      $('#place-info-wrapper').toggleClass('visible');
+      $('#place-info-wrapper .triangle-icon').toggleClass('left');
+
+    });
   }
+
 
   function showDetailedInfo(place) {
     var params = {
       placeId: place['place_id']
     };
     service.getDetails(params, function(place) {
+      //add error handle if there is no google photos
       $('#hero-header-wrapper img').attr('src', place.photos[0].getUrl({'maxWidth': 408, 'maxheight': 407}));
       $('.place-name').text(place['name']);
       $('.place-review-score').text(place['rating']);
       $('.place-type').text(place['types'][0]);
-      $('#place-info-wrapper').show();
+      $('#place-info-wrapper').addClass('visible');
     });
   }
 
