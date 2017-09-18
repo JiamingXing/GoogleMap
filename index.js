@@ -1,8 +1,7 @@
-//index.js test
 const path = require('path');
 const express = require('express');
 const request = require('request');
-const app = express()
+const app = express();
 
 
 const PORT_NUMBER = 8080;
