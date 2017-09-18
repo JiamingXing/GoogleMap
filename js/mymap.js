@@ -8,7 +8,7 @@ $(function() {
   var DEFAULT_LNG = -73.968285;
 
   var current_infowindow;
-  var makers_shown;
+  var markers_shown;
 
   function initMap() {
 
