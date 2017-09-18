@@ -23,14 +23,30 @@ $(function() {
       'type': 'restaurant'
     };
 
+    var search_bar = new SearchBar(function(type) {
+        var params = {
+             'location': new google.maps.LatLng(DEFAULT_LAT, DEFAULT_LNG),
+             'radius': 500,
+             'type': type
+        };
+        getNearByPlaces(map, params);
+    });
+
+    search_bar.addTo($('body'));
+
+    $('.place-info-visibility-toggle').on('click', function() {
+      $('#place-info-wrapper').toggleClass('visible');
+      $('#place-info-wrapper .triangle-icon').toggleClass('left');
+    });
+  }
+
+  function getNearByPlaces(map, params) {
     service = new google.maps.places.PlacesService(map);
     service.nearbySearch(params, function(places, status) {
       if (status === google.maps.places.PlacesServiceStatus.OK) {
         var current_infowindow;
 
-        //iterate over a list of array
-        _.each(places, function(place) {
-          //create all markers of all returned palces
+        _.each(results, function(place) {
           var marker = new google.maps.Marker({
             position: {
               'lat': place.geometry.location.lat(),
@@ -41,7 +57,7 @@ $(function() {
 
           var infowindow_content =
             '<div id="content">' +
-              '<h1  class="firstHeading">' + place.name + '</h1>'+
+              '<h1 id="firstHeading" class="firstHeading">' + place.name + '</h1>'+
             '</div>';
 
           var infowindow = new google.maps.InfoWindow({
@@ -49,21 +65,16 @@ $(function() {
           });
 
           marker.addListener('click', function() {
-            //close former infowindow
-            if (current_infowindow) { 
+            if (current_infowindow) {
               current_infowindow.close();
             }
             infowindow.open(map, marker);
             current_infowindow = infowindow;
+
             showDetailedInfo(place);
           });
         });
       }
-    });
-    $('.place-info-visibility-toggle').on('click', function() {
-      $('#place-info-wrapper').toggleClass('visible');
-      $('#place-info-wrapper .triangle-icon').toggleClass('left');
-
     });
   }
 
