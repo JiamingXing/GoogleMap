@@ -1,5 +1,6 @@
 var DEFAULT_ZOOM = 15;
 var GOOGLE_API_KEY = 'AIzaSyAAerCc7M_7gAWfRE1_y_Ze8deCw2JwRZg';
+var DEFAULT_RADIUS = 500;
 
 function initMap() {
    var position = {
@@ -22,7 +23,7 @@ function initMap() {
       'location': position.lat + ',' + position.lng,
       'type': 'restaurant',
       'key': GOOGLE_API_KEY,
-      'radius': 500
+      'radius': DEFAULT_RADIUS
     },
     success: function(data){ 
       debugger;
